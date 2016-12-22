@@ -8,8 +8,9 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./home.component.css'],
   templateUrl: './home.component.html'
 })
+
 export class HomeComponent {
-  subscriptions = ["VICH","ABV","LRR","TIH"];
+  subscriptions = [];
   regions = ["China","India","Brazil","Europe"];
   plants = ["CN-QHD","IN-DAB","BR-BRS","DK-ASV"];
   model = new Spc('default','default');
@@ -18,7 +19,11 @@ export class HomeComponent {
   hasRegionError = false;
 
   constructor(private formPoster: FormPoster) {
-
+    this.formPoster.getsubscriptions()
+      .subscribe(
+        data => this.subscriptions = data.subscriptions,
+        err => console.log('get error: ', err)
+      );
   }
 
   submitForm(form: NgForm) {
@@ -46,7 +51,7 @@ export class HomeComponent {
     this.hassubsOwnerError=false;
   }
 
-    validateRegion(value) {
+  validateRegion(value) {
     if (value === 'default')
     this.hasRegionError = true;
     else

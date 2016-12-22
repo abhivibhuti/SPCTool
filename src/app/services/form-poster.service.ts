@@ -16,9 +16,20 @@ export class FormPoster {
         return body.fields || { };
     }
 
+    private extractSubscriptions(res: Response) {
+        let body = res.json();
+        return body.data || { };
+    }
     private handleError(error: any) {
         console.error('post error: ', error);
         return Observable.throw(error.statusText);
+    }
+
+    getsubscriptions() : Observable<any> {
+        return this.http.get('http://localhost:3100/getsubscriptions')
+                        .delay(5000)
+                        .map(this.extractSubscriptions)
+                        .catch(this.handleError);
     }
 
     postSpcForm(spc: Spc):Observable<any> {
