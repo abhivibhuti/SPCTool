@@ -11,19 +11,36 @@ import { NgForm } from '@angular/forms';
 
 export class HomeComponent {
   subscriptions = [];
-  regions = ["China","India","Brazil","Europe"];
-  plants = ["CN-QHD","IN-DAB","BR-BRS","DK-ASV"];
-  model = new Spc('default','default');
+  regions = [];
+  plants = [];
+  model = new Spc('default','default','default');
 
   hassubsOwnerError = false;
   hasRegionError = false;
+  hasPlantError = false;
 
   constructor(private formPoster: FormPoster) {
     this.formPoster.getsubscriptions()
-      .subscribe(
-        data => this.subscriptions = data.subscriptions,
+    .subscribe(
+        data => this.subscriptions = data.subscriptions, 
         err => console.log('get error: ', err)
-      );
+    );
+
+     data => this.regions = data.regions
+   /*    
+      this.formPoster.getsubscriptions()
+        .subscribe(
+          data => this.regions = data.regions,
+          err => console.log('get error: ', err)
+        );
+
+     
+      this.formPoster.getPlants()
+        .subscribe(
+          data => this.plants = data.plants,
+          err => console.log('get error: ', err)
+        );
+        */
   }
 
   submitForm(form: NgForm) {
@@ -34,6 +51,10 @@ export class HomeComponent {
 
     this.validateRegion(this.model.Region);
     if (this.hasRegionError)
+    return;
+
+    this.validateRegion(this.model.Plant);
+    if (this.hasPlantError)
     return;
 
     this.formPoster.postSpcForm(this.model)
@@ -56,5 +77,12 @@ export class HomeComponent {
     this.hasRegionError = true;
     else
     this.hasRegionError=false;
+  }
+
+   validatePlant(value) {
+    if (value === 'default')
+    this.hasPlantError = true;
+    else
+    this.hasPlantError=false;
   }
 }

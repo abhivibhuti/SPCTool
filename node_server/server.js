@@ -14,12 +14,9 @@ var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == 'get') {
         var data = {
             data: {
-                subscriptions: [
-                    'VICH',
-                    'ABV',
-                    'LRR',
-                    'TIH'
-                ]
+            subscriptions: ['VICH','ABV','LRR','TIH'],
+            Regions: ['China','India','Brazil','Europe'],
+            Plants: ['CN-QHD','IN-DAB','BR-BRS','DK-ASV']
             }
         };
 

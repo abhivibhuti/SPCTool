@@ -20,6 +20,18 @@ export class FormPoster {
         let body = res.json();
         return body.data || { };
     }
+
+
+    private extractRegions(res: Response) {
+        let body = res.json();
+        return body.data || { };
+    }
+/*
+    private extractPlants(res: Response) {
+        let body = res.json();
+        return body.data || { };
+    }
+*/
     private handleError(error: any) {
         console.error('post error: ', error);
         return Observable.throw(error.statusText);
@@ -32,6 +44,20 @@ export class FormPoster {
                         .catch(this.handleError);
     }
 
+    getRegions() : Observable<any> {
+        return this.http.get('http://localhost:3100/getRegions')
+                        //.delay(5000)
+                        .map(this.extractRegions)
+                        .catch(this.handleError);
+    }
+/*
+    getPlants() : Observable<any> {
+        return this.http.get('http://localhost:3100/getPlants')
+                        //.delay(5000)
+                        .map(this.extractPlants)
+                        .catch(this.handleError);
+    }
+*/
     postSpcForm(spc: Spc):Observable<any> {
         let body = JSON.stringify(spc);
         let headers = new Headers({'Content-Type': 'application/json' });
