@@ -22,25 +22,15 @@ export class HomeComponent {
   constructor(private formPoster: FormPoster) {
     this.formPoster.getsubscriptions()
     .subscribe(
-        data => this.subscriptions = data.subscriptions, 
+        data => {
+          this.subscriptions = data.subscriptions
+          this.regions = data.Regions
+          this.plants = data.Plants
+        },
         err => console.log('get error: ', err)
     );
-
-     data => this.regions = data.regions
-   /*    
-      this.formPoster.getsubscriptions()
-        .subscribe(
-          data => this.regions = data.regions,
-          err => console.log('get error: ', err)
-        );
-
-     
-      this.formPoster.getPlants()
-        .subscribe(
-          data => this.plants = data.plants,
-          err => console.log('get error: ', err)
-        );
-        */
+    
+    
   }
 
   submitForm(form: NgForm) {
@@ -53,7 +43,7 @@ export class HomeComponent {
     if (this.hasRegionError)
     return;
 
-    this.validateRegion(this.model.Plant);
+    this.validatePlant(this.model.Plant);
     if (this.hasPlantError)
     return;
 
@@ -79,10 +69,11 @@ export class HomeComponent {
     this.hasRegionError=false;
   }
 
-   validatePlant(value) {
+  validatePlant(value) {
     if (value === 'default')
     this.hasPlantError = true;
     else
     this.hasPlantError=false;
   }
+
 }
